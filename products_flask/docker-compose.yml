@@ -1,0 +1,36 @@
+version: "3.9"
+services:
+  backend-flask:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: >
+      sh -c "python main.py"
+    ports:
+      - "8002:5000"
+    volumes:
+      - .:/app
+    depends_on:
+      - db-flask
+  queue:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: >
+      sh -c 'python consumer.py'
+    depends_on:
+      - db-flask
+
+  db-flask:
+    image: postgres:13-alpine
+    restart: always
+    volumes:
+      - dev-db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=devdb
+      - POSTGRES_USER=devuser
+      - POSTGRES_PASSWORD=kalman
+    ports:
+      - "54033:5432"
+volumes:
+  dev-db-data:
