@@ -6,7 +6,8 @@ import os
 
 import json
 
-from main import Product, db
+from main import Product, db, app
+
 
 URL = os.environ.get('URL')
 

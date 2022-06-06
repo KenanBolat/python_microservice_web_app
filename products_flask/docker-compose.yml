@@ -6,6 +6,8 @@ services:
       dockerfile: Dockerfile
     command: >
       sh -c "python main.py"
+    extra_hosts:
+      - host.docker.internal:host-gateway
     ports:
       - "8002:5000"
     volumes:
@@ -20,6 +22,9 @@ services:
       dockerfile: Dockerfile
     environment:
       - URL=${URL}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     command: >
       sh -c 'python consumer.py'
     depends_on:
@@ -34,6 +39,7 @@ services:
       - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+
     ports:
       - "54033:5432"
 volumes:

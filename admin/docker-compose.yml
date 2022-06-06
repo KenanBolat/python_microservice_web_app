@@ -4,12 +4,14 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    extra_hosts:
+      - host.docker.internal:host-gateway
     ports:
       - 8000:8000
     volumes:
       - .:/app
     environment:
-       - URL=${URL}
+      - URL=${URL}
     depends_on:
       - db
   db:
@@ -18,10 +20,12 @@ services:
     volumes:
       - dev-db-data:/var/lib/postgresql/data
     environment:
-        - POSTGRES_DB=${POSTGRES_DB}
-        - POSTGRES_USER=${POSTGRES_USER}
-        - POSTGRES_PASSWORD={$POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD={$POSTGRES_PASSWORD}
+    extra_hosts:
+      - host.docker.internal:host-gateway
     ports:
-        - 54032:5432
+      - 54032:5432
 volumes:
   dev-db-data:
