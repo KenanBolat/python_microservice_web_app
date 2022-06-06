@@ -1,8 +1,11 @@
 import datetime
 
 import pika
+
 import os
+
 import json
+
 
 URL = os.environ.get('URL')
 params = pika.URLParameters(URL)
@@ -17,6 +20,8 @@ channel.queue_declare(queue='admin')
 def callback(ch, method, properties, body):
     print('Recieved in Admin linux')
     print(body)
+    data = json.loads(body)
+    print(data)
 
 
 channel.basic_consume(queue='admin', on_message_callback=callback)

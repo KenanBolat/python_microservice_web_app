@@ -13,14 +13,11 @@ connection = pika.BlockingConnection(parameters=params)
 channel = connection.channel()
 
 
-def publish():
+def publish(method, body):
     """Producer publish method"""
-    # properties = pika.BasicProperties(method)
+    properties = pika.BasicProperties(method)
     channel.basic_publish(exchange='',
                           routing_key='main',
-                          body=str(datetime.datetime.now()) + ' Hello World',
-                          )
-    channel.basic_publish(exchange='',
-                          routing_key='admin',
-                          body=str(datetime.datetime.now()) + ' Hello World',
+                          body=json.dumps(body),
+                          properties=properties,
                           )
