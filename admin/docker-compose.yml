@@ -8,6 +8,8 @@ services:
       - 8000:8000
     volumes:
       - .:/app
+    environment:
+       - URL=${URL}
     depends_on:
       - db
   db:
@@ -16,9 +18,9 @@ services:
     volumes:
       - dev-db-data:/var/lib/postgresql/data
     environment:
-        - POSTGRES_DB=devdb
-        - POSTGRES_USER=devuser
-        - POSTGRES_PASSWORD=kalman
+        - POSTGRES_DB=${POSTGRES_DB}
+        - POSTGRES_USER=${POSTGRES_USER}
+        - POSTGRES_PASSWORD={$POSTGRES_PASSWORD}
     ports:
         - 54032:5432
 volumes:
