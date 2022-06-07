@@ -44,7 +44,7 @@ def callback(ch, method, properties, body):
         print('Product Deleted')
 
 
-channel.basic_consume(queue='main', on_message_callback=callback, auto_ack=True)
+channel.basic_consume(queue='main', on_message_callback=callback, auto_ack=False)
 
 print('Started Consuming')
 

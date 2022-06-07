@@ -28,7 +28,7 @@ def callback(ch, method, properties, body):
     print(f'Product likes increased : {product.likes} ')
 
 
-channel.basic_consume(queue='admin', on_message_callback=callback, auto_ack=True)
+channel.basic_consume(queue='admin', on_message_callback=callback, auto_ack=False)
 
 print('Started Consuming')
 

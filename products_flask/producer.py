@@ -21,3 +21,5 @@ def publish(method, body):
                           body=json.dumps(body),
                           properties=properties,
                           )
+
+
