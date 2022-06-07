@@ -1,12 +1,11 @@
 import datetime
 
-import pika
+import pika, os, json, django
+django.setup()
 
-import os
-
-import json
 
 from products.models import Product
+
 
 URL = os.environ.get('URL')
 params = pika.URLParameters(URL)
@@ -19,8 +18,8 @@ channel.queue_declare(queue='admin')
 
 
 def callback(ch, method, properties, body):
-    data = json.loads(body)
-    print(data)
+    id = json.loads(body)
+    print(id)
     product = Product.objects.get(id=id)
 
     product.likes = product.likes + 1
@@ -29,7 +28,7 @@ def callback(ch, method, properties, body):
     print(f'Product likes increased : {product.likes} ')
 
 
-channel.basic_consume(queue='admin', on_message_callback=callback)
+channel.basic_consume(queue='admin', on_message_callback=callback, auto_ack=True)
 
 print('Started Consuming')
 
